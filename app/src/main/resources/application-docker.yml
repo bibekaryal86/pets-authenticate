@@ -1,0 +1,5 @@
+#Spring Boot Port
+server:
+  port: 8004
+  servlet:
+    context-path: /pets-authenticate

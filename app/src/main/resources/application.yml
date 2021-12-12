@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: pets-authenticate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+endpoint_urls:
+  pets_service:
+    development: http://localhost:8003
+    production: https://pets-service.appspot.com
+    docker: http://pets-service:8003
+
+endpoint_bases:
+  pets-service: ${endpoint_urls.pets_service.${spring.profiles.active}}/pets-service
+
+#Endpoints
+user_get_by_username: ${endpoint_bases.pets-service}/users/user/username/{username}
