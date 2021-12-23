@@ -24,14 +24,25 @@ public class UserService {
 
     public UserDetails validateUser(TokenRequest tokenRequest) {
         UserDetails userDetails = null;
+        boolean isSaveNewUser = tokenRequest.getUser() != null;
+        String password = isSaveNewUser ? tokenRequest.getUser().getPassword() : tokenRequest.getPassword();
 
         try {
-            UserResponse userResponse = userConnector.getUserByUsername(tokenRequest.getUsername());
+            UserResponse userResponse;
+            if (isSaveNewUser) {
+                String newPassword = bCryptPasswordEncoder.encode(tokenRequest.getUser().getPassword());
+                User user = User.builder()
+                        .password(newPassword)
+                        .build();
+                BeanUtils.copyProperties(tokenRequest.getUser(), user, "password");
+                userResponse = userConnector.saveNewUser(user);
+            } else {
+                userResponse = userConnector.getUserByUsername(tokenRequest.getUsername());
+            }
 
             if (userResponse != null && userResponse.getUsers() != null) {
                 User user = userResponse.getUsers().stream()
-                        .filter(userDetail -> bCryptPasswordEncoder.matches(tokenRequest.getPassword(),
-                                userDetail.getPassword()))
+                        .filter(userDetail -> bCryptPasswordEncoder.matches(password, userDetail.getPassword()))
                         .findFirst()
                         .orElse(null);
 

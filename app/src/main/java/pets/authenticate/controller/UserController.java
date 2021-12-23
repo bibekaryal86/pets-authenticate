@@ -31,10 +31,15 @@ public class UserController {
         this.tokenKeysService = tokenKeysService;
     }
 
+    private boolean validateRequest(TokenRequest tokenRequest) {
+        return tokenRequest != null && (tokenRequest.getUser() != null || (hasText(tokenRequest.getUsername()) &&
+                hasText(tokenRequest.getPassword())));
+    }
+
     @PostMapping(value = "/login", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<TokenResponse> login(@RequestBody TokenRequest tokenRequest,
                                                          HttpServletRequest request) {
-        if (tokenRequest == null || !hasText(tokenRequest.getUsername()) || !hasText(tokenRequest.getPassword())) {
+        if (!validateRequest(tokenRequest)) {
             return new ResponseEntity<>(TokenResponse.builder().build(), BAD_REQUEST);
         }
 

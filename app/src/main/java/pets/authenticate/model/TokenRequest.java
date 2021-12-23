@@ -2,6 +2,7 @@ package pets.authenticate.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import pets.authenticate.model.user.User;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
@@ -18,4 +19,6 @@ public class TokenRequest {
     private String sourceIp;
     private String token;
     private boolean logOut;
+    // for save new user request
+    private User user;
 }
