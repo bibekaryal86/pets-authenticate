@@ -19,3 +19,4 @@ endpoint_bases:
 
 #Endpoints
 user_get_by_username: ${endpoint_bases.pets-service}/users/user/username/{username}
+user_save_new_user: ${endpoint_bases.pets-service}/users/user/
