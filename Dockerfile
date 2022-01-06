@@ -5,6 +5,7 @@ ARG JAR_FILE=app/build/libs/pets-authenticate.jar
 COPY ${JAR_FILE} pets-authenticate.jar
 ENTRYPOINT ["java","-jar", \
 #"-DSPRING_PROFILES_ACTIVE=docker", \
+#"-DTZ=America/Denver", \
 #"-DBASIC_AUTH_USR_PETSSERVICE=some_username", \
 #"-DBASIC_AUTH_PWD_PETSSERVICE=some_password", \
 "/pets-authenticate.jar"]
