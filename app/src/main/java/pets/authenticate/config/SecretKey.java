@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:secret-key.properties")
 public class SecretKey {
 
-    @Bean
-    public String petsSecretKey(@Value("${pets_secret_key}") String petsSecretKey) {
-        return petsSecretKey;
-    }
+  @Bean
+  public String petsSecretKey(@Value("${pets_secret_key}") String petsSecretKey) {
+    return petsSecretKey;
+  }
 }

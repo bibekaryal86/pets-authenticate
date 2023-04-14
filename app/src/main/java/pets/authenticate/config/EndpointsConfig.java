@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EndpointsConfig {
 
-    @Bean
-    public String getUserByUsernameUrl(@Value("${user_get_by_username}") String getUserByUsernameUrl) {
-        return getUserByUsernameUrl;
-    }
+  @Bean
+  public String getUserByUsernameUrl(
+      @Value("${user_get_by_username}") String getUserByUsernameUrl) {
+    return getUserByUsernameUrl;
+  }
 
-    @Bean
-    public String saveNewUserUrl(@Value("${user_save_new_user}") String saveNewUserUrl) {
-        return saveNewUserUrl;
-    }
+  @Bean
+  public String saveNewUserUrl(@Value("${user_save_new_user}") String saveNewUserUrl) {
+    return saveNewUserUrl;
+  }
 }
