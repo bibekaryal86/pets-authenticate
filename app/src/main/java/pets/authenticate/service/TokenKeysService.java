@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.Map;
+import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pets.authenticate.model.TokenRequest;
@@ -16,11 +16,11 @@ import pets.authenticate.model.TokenRequest;
 public class TokenKeysService {
 
   private final ObjectMapper objectMapper;
-  private final String petsSecretKey;
+  private final SecretKey petsSecretKey;
 
   private static final long EXPIRATION = 1800000; // 30 MINUTES
 
-  public TokenKeysService(String petsSecretKey) {
+  public TokenKeysService(SecretKey petsSecretKey) {
     this.objectMapper = new ObjectMapper();
     this.petsSecretKey = petsSecretKey;
   }
@@ -40,7 +40,7 @@ public class TokenKeysService {
       token =
           Jwts.builder()
               .setClaims(claims)
-              .signWith(SignatureAlgorithm.HS512, petsSecretKey)
+              .signWith(petsSecretKey)
               .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
               .compact();
     } catch (Exception ex) {
@@ -61,13 +61,18 @@ public class TokenKeysService {
         expirationDate = new Date(System.currentTimeMillis() + EXPIRATION);
       }
 
-      Claims claims = Jwts.parser().setSigningKey(petsSecretKey).parseClaimsJws(oldToken).getBody();
-      // TokenRequest tokenRequest = objectMapper.convertValue(claims, TokenRequest.class);   //
-      // NOSONAR
+      Claims claims =
+          Jwts.parserBuilder()
+              .setSigningKey(petsSecretKey)
+              .build()
+              .parseClaimsJws(oldToken)
+              .getBody();
+      // TokenRequest tokenRequest = objectMapper.convertValue(claims, TokenRequest.class);
+
       newToken =
           Jwts.builder()
               .setClaims(claims)
-              .signWith(SignatureAlgorithm.HS512, petsSecretKey)
+              .signWith(petsSecretKey)
               .setExpiration(expirationDate)
               .compact();
     } catch (Exception ex) {

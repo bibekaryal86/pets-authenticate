@@ -1,5 +1,7 @@
 package pets.authenticate.config;
 
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +12,8 @@ import org.springframework.context.annotation.PropertySource;
 public class SecretKey {
 
   @Bean
-  public String petsSecretKey(@Value("${pets_secret_key}") String petsSecretKey) {
-    return petsSecretKey;
+  public static javax.crypto.SecretKey petsSecretKey(
+      @Value("${pets_secret_key}") String petsSecretKey) {
+    return Keys.hmacShaKeyFor(petsSecretKey.getBytes(StandardCharsets.UTF_8));
   }
 }

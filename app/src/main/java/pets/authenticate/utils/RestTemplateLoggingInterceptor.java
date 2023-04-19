@@ -60,7 +60,7 @@ public class RestTemplateLoggingInterceptor implements ClientHttpRequestIntercep
     try {
       StringBuilder stringBuilder =
           new StringBuilder("Received [")
-              .append(clientHttpResponse.getRawStatusCode())
+              .append(clientHttpResponse.getStatusCode())
               .append("] Response [")
               .append(maskedUri)
               .append("]");
