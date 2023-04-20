@@ -40,8 +40,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
-    implementation 'ch.qos.logback:logback-core:1.4.6'
-    implementation 'ch.qos.logback:logback-classic:1.4.6'
+    implementation 'ch.qos.logback:logback-core:1.4.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.7'
 }
 
 application {
