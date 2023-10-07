@@ -39,9 +39,9 @@ public class TokenKeysService {
 
       token =
           Jwts.builder()
-              .setClaims(claims)
+              .claims(claims)
               .signWith(petsSecretKey)
-              .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+              .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
               .compact();
     } catch (Exception ex) {
       log.error("Error in creating token: {}", tokenRequest, ex);
@@ -62,11 +62,7 @@ public class TokenKeysService {
       }
 
       Claims claims =
-          Jwts.parserBuilder()
-              .setSigningKey(petsSecretKey)
-              .build()
-              .parseClaimsJws(oldToken)
-              .getBody();
+          Jwts.parser().verifyWith(petsSecretKey).build().parseSignedClaims(oldToken).getPayload();
       // TokenRequest tokenRequest = objectMapper.convertValue(claims, TokenRequest.class);
 
       newToken =
