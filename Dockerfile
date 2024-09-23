@@ -1,12 +1,17 @@
-FROM eclipse-temurin:17-jre-alpine
-RUN adduser --system --group springdocker
+# Build
+FROM gradle:8.10-jdk21-alpine AS build
+WORKDIR /app
+COPY app/build.gradle .
+COPY app/src /app/src
+RUN gradle --no-daemon clean build
+
+# Deploy
+FROM eclipse-temurin:21-jre-alpine
+RUN addgroup -S springdocker
+RUN adduser -S springdocker -G springdocker
 USER springdocker:springdocker
-ARG JAR_FILE=app/build/libs/pets-authenticate.jar
-COPY ${JAR_FILE} pets-authenticate.jar
-ENTRYPOINT ["java","-jar", \
-#"-DSPRING_PROFILES_ACTIVE=docker", \
-#"-DTZ=America/Denver", \
-#"-DBASIC_AUTH_USR_PETSSERVICE=some_username", \
-#"-DBASIC_AUTH_PWD_PETSSERVICE=some_password", \
-"/pets-authenticate.jar"]
+WORKDIR /app
+COPY --from=build /app/build/libs/pets-authenticate.jar .
+EXPOSE 8080
+ENTRYPOINT ["java","-jar", "pets-authenticate.jar"]
 # provide environment variables in docker-compose
