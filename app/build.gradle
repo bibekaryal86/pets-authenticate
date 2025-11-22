@@ -33,7 +33,7 @@ bootJar {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.5.7'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:4.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web:3.5.7'
     implementation 'org.springframework.security:spring-security-crypto:7.0.0'
     implementation 'io.micrometer:micrometer-tracing-bridge-otel:1.6.0'
